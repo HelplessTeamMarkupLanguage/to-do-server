@@ -1,13 +1,13 @@
-const MongoClient = require("mongodb").MongoClient;
+const MongoClient = require('mongodb').MongoClient;
 
 module.exports = {
   createConnection: function (req, res, next) {
     MongoClient.connect(
-      "mongodb+srv://adigreg:3nsieeDIH4HgRMWG@todo.luua0.mongodb.net/todo?retryWrites=true&w=majority",
+      'mongodb+srv://adigreg:3nsieeDIH4HgRMWG@todo.luua0.mongodb.net/todo?retryWrites=true&w=majority',
       function (err, client) {
         if (err) throw err;
         req.dbClient = client;
-        req.db = client.db("todo");
+        req.db = client.db('todo');
 
         next();
       }
