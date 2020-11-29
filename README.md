@@ -1,2 +1,2 @@
 # to-do-server
-Backend for the todo cleint
+Backend for the todo client
