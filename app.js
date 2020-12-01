@@ -3,6 +3,11 @@ const app = express();
 const port = 8080;
 const db = require('./db');
 const cors = require('cors');
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 /* const bodyParser = require("body-parser");
  */
 app.use(cors());
