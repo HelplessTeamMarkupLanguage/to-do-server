@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const port = 8080;
 const db = require('./db');
 const todo = require('./controllers/todo');
 
@@ -17,4 +16,4 @@ app.use('/todo', todo);
 
 app.use(db.closeConnection);
 
-app.listen(port);
+app.listen(process.env.PORT || 8080);
