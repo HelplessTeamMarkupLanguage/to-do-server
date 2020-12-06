@@ -1,16 +1,16 @@
 const router = require('express').Router();
 const ObjectId = require('mongodb').ObjectId;
 
-router.get('',async (req, res, next) => {
+router.get('', async (req, res, next) => {
   try {
-    res.json(await req.db.collection('todo').find({}).toArray());
+    res.json(await req.db.collection('todo').find({}).sort({ date: -1 }).toArray());
   } catch (e) {
     next(e);
   }
   next();
 });
 
-router.post('',async (req, res, next) => {
+router.post('', async (req, res, next) => {
   try {
     await req.db.collection('todo').insertOne(req.body);
     res.sendStatus(201);
