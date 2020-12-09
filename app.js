@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const todo = require('./controllers/todo');
+const user = require('./controllers/user');
 const MongoClient = require('mongodb').MongoClient;
 let dbClient;
 
@@ -18,6 +19,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/todo', todo);
+app.use('/user', user);
 
 MongoClient.connect(
   `mongodb+srv://${process.env.DB_ADMIN_NAME}:${process.env.DB_ADMIN_PASSWORD}@${process.env.DB_URI}?retryWrites=true&w=majority`,
