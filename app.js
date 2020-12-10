@@ -3,12 +3,16 @@ const app = express();
 const todo = require('./controllers/todo');
 const user = require('./controllers/user');
 const MongoClient = require('mongodb').MongoClient;
+const helmet = require('helmet');
+const compression = require('compression');
 let dbClient;
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
+app.use(helmet());
+app.use(compression());
 app.use(require('cors')());
 app.use(express.json());
 /* app.use(express.urlencoded({ extended: true })) */
