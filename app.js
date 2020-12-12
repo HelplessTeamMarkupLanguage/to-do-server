@@ -5,6 +5,7 @@ const user = require('./controllers/user');
 const MongoClient = require('mongodb').MongoClient;
 const helmet = require('helmet');
 const compression = require('compression');
+const auth = require('./auth-gates');
 let dbClient;
 
 if (process.env.NODE_ENV !== 'production') {
@@ -22,7 +23,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/todo', todo);
+app.use('/todo', auth, todo);
 app.use('/user', user);
 
 MongoClient.connect(
