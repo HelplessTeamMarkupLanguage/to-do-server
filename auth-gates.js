@@ -11,7 +11,6 @@ module.exports = (req, res, next) => {
       throw 'Invalid user ID';
     }
   } catch (e) {
-    console.log(e);
     res.status(401).send('Invalid request!');
   }
 };
