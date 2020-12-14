@@ -3,7 +3,7 @@ const ObjectId = require('mongodb').ObjectId;
 
 router.get('', async (req, res, next) => {
   try {
-    res.json(await req.db.collection('todo').find({}).sort({ date: -1 }).toArray());
+    res.json(await req.db.collection('todo').find({ userId: req.userId }).sort({ date: -1 }).toArray());
   } catch (e) {
     next(e);
   }
@@ -12,6 +12,7 @@ router.get('', async (req, res, next) => {
 
 router.post('', async (req, res, next) => {
   try {
+    req.body.userId = req.userId;
     await req.db.collection('todo').insertOne(req.body);
     res.sendStatus(201);
   } catch (e) {
