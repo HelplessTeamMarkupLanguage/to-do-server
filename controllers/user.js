@@ -1,10 +1,12 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const ObjectId = require('mongodb').ObjectId;
+const auth = require('../auth-gates');
 
 router.post('/login', async (req, res, next) => {
   try {
-    dbResult = await req.db.collection('user').findOne({ username: req.body.username });
+    const dbResult = await req.db.collection('user').findOne({ username: req.body.username });
     if (!dbResult) {
       res.sendStatus(401);
     } else {
@@ -37,6 +39,24 @@ router.post('/signin', async (req, res, next) => {
         .then(() => res.sendStatus(201))
         .catch(() => res.sendStatus(409));
     }
+  } catch (e) {
+    next(e);
+  }
+  next();
+});
+
+router.post('/delete', auth, async (req, res, next) => {
+  try {
+    const user = await req.db.collection('user').findOne({ _id: ObjectId(req.userId) });
+    await bcrypt.compare(req.body.password, user.password).then(async (result) => {
+      if (result) {
+        await req.db.collection('todo').deleteMany({ userId: req.userId });
+        await req.db.collection('user').deleteOne({ _id: ObjectId(req.userId) });
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(403);
+      }
+    });
   } catch (e) {
     next(e);
   }
